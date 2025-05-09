@@ -3,4 +3,4 @@ ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 
 bin_PROGRAMS = hello
 hello_CFLAGS = -I$(top_srcdir)/src
-hello_SOURCES = src/main.c
+hello_SOURCES = src/hello.cpp  src/main.cpp
