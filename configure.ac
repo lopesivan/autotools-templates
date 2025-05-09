@@ -11,10 +11,8 @@ AC_CANONICAL_HOST
 
 dnl ====== Compilador ========================================================
 AC_PROG_CC
-
-# para gerar: lib/.libs/libmyapp.so
-AM_PROG_AR
-LT_INIT
+AC_PROG_RANLIB
+AC_PROG_AR
 
 AC_CONFIG_FILES([Makefile])
 
