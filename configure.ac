@@ -12,7 +12,7 @@ AC_CANONICAL_HOST
 dnl ====== Compilador ========================================================
 AC_PROG_CC
 AC_PROG_RANLIB
-AC_PROG_AR
+LT_INIT  # <- importante para suporte a bibliotecas compartilhadas
 
 AC_CONFIG_FILES([Makefile])
 
