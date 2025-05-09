@@ -144,4 +144,242 @@ incrementam apenas o `REVISION`.
 
 ---
 
-Quer que eu te mostre o que aconteceria se depois da 10ª modificação você fizesse uma mudança **compatível**, ou até uma **quebra de API**?
+
+> Você quer:
+>
+> * `CURRENT = 10`
+> * `REVISION = 200`
+> * Compatível com: versões 9, 8, 7, 6
+
+---
+
+## ✅ Significado disso em `libtool` terms
+
+| Campo      | Valor | Significado                                                                         |
+| ---------- | ----- | ----------------------------------------------------------------------------------- |
+| `CURRENT`  | 10    | Esta é a **décima versão da API**.                                                  |
+| `REVISION` | 200   | Houve **200 alterações internas** desde a API 10 ser criada. Nenhuma quebrou a API. |
+| `AGE`      | 4     | Esta versão ainda **suporta as APIs das versões 6, 7, 8 e 9**.                      |
+
+> 🎯 **Regra:** se você quer compatibilidade com versões `CURRENT - AGE`, então:
+>
+> ```
+> AGE = CURRENT - menor versão compatível
+> AGE = 10 - 6 = 4
+> ```
+
+---
+
+## ✅ Final:
+
+```make
+libminhalib_la_LDFLAGS = -version-info 10:200:4
+```
+
+### 🧠 Interpretação:
+
+* A lib é da API 10.
+* Ela teve 200 revisões internas desde que a API 10 foi introduzida.
+* Ela **ainda é compatível com APIs 6, 7, 8 e 9**.
+
+---
+
+### ⚠️ Dica Importante:
+
+Se você eventualmente **quebrar a compatibilidade com a API
+9**, o próximo `AGE` deve ser `3` ou menos, e o `CURRENT`
+aumentaria para `11`.
+
+---
+
+Abaixo está um **script simples em Shell** que você pode
+usar para **gerenciar o versionamento Libtool** automaticamente
+com base em regras como:
+
+* Incrementar `REVISION` para alterações internas.
+* Resetar `REVISION` e incrementar `CURRENT` se a API pública mudar.
+* Reduzir `AGE` se quebrar compatibilidade com versões anteriores.
+
+---
+
+## ✅ `version.sh` – Script de controle de versionamento
+
+```bash
+#!/bin/bash
+# Libtool version manager for libminhalib.la
+
+VERSION_FILE=".libtool_version"
+
+# Inicializar se não existir
+if [ ! -f "$VERSION_FILE" ]; then
+    echo "1 0 0" > "$VERSION_FILE"  # CURRENT REVISION AGE
+fi
+
+read CURRENT REVISION AGE < "$VERSION_FILE"
+
+echo "Versão atual: CURRENT=$CURRENT, REVISION=$REVISION, AGE=$AGE"
+echo
+
+echo "Selecione a mudança:"
+echo "1) Mudança interna (não afeta API)"
+echo "2) Expansão compatível da API (ex: nova função pública)"
+echo "3) Quebra de compatibilidade (API incompatível)"
+read -p "Sua escolha (1/2/3): " CHOICE
+
+case $CHOICE in
+    1)
+        REVISION=$((REVISION + 1))
+        ;;
+    2)
+        CURRENT=$((CURRENT + 1))
+        REVISION=0
+        AGE=$((AGE + 1))
+        ;;
+    3)
+        CURRENT=$((CURRENT + 1))
+        REVISION=0
+        AGE=0
+        ;;
+    *)
+        echo "Opção inválida."
+        exit 1
+        ;;
+esac
+
+echo "$CURRENT $REVISION $AGE" > "$VERSION_FILE"
+
+echo
+echo "Nova versão Libtool:"
+echo "  -version-info $CURRENT:$REVISION:$AGE"
+echo
+echo "Adicione essa linha ao seu Makefile.am:"
+echo "libminhalib_la_LDFLAGS = -version-info $CURRENT:$REVISION:$AGE"
+```
+
+---
+
+## 💾 Como usar
+
+1. Salve o script como `version.sh`.
+2. Torne-o executável:
+
+```bash
+chmod +x version.sh
+```
+
+3. Rode sempre que fizer mudanças:
+
+```bash
+./version.sh
+```
+
+Ele te guiará com perguntas e gerará o `-version-info` correto.
+
+---
+
+### ⚡ Extra (opcional):
+
+Você pode adicionar o `-version-info` automaticamente no
+`Makefile.am` com `sed`, se quiser automatizar ainda mais.
+
+Abaixo está a versão **atualizada do script `version.sh`**, que:
+
+1. Atualiza os números de versão (`CURRENT`, `REVISION`, `AGE`) com base na sua escolha.
+2. **Insere ou atualiza automaticamente** a linha `libminhalib_la_LDFLAGS = -version-info ...` no seu `Makefile.am`.
+
+---
+
+## ✅ Script `version.sh` (com atualização automática do Makefile.am)
+
+```bash
+#!/bin/bash
+# Libtool version manager for libminhalib.la
+
+VERSION_FILE=".libtool_version"
+MAKEFILE_AM="Makefile.am"
+
+# Inicializar versão se não existir
+if [ ! -f "$VERSION_FILE" ]; then
+    echo "1 0 0" > "$VERSION_FILE"  # CURRENT REVISION AGE
+fi
+
+# Ler versão atual
+read CURRENT REVISION AGE < "$VERSION_FILE"
+
+echo "Versão atual: CURRENT=$CURRENT, REVISION=$REVISION, AGE=$AGE"
+echo
+
+echo "Selecione a mudança:"
+echo "1) Mudança interna (não afeta API)"
+echo "2) Expansão compatível da API (ex: nova função pública)"
+echo "3) Quebra de compatibilidade (API incompatível)"
+read -p "Sua escolha (1/2/3): " CHOICE
+
+case $CHOICE in
+    1)
+        REVISION=$((REVISION + 1))
+        ;;
+    2)
+        CURRENT=$((CURRENT + 1))
+        REVISION=0
+        AGE=$((AGE + 1))
+        ;;
+    3)
+        CURRENT=$((CURRENT + 1))
+        REVISION=0
+        AGE=0
+        ;;
+    *)
+        echo "❌ Opção inválida."
+        exit 1
+        ;;
+esac
+
+# Salvar nova versão
+echo "$CURRENT $REVISION $AGE" > "$VERSION_FILE"
+
+# Atualizar ou adicionar linha no Makefile.am
+LDFLAGS_LINE="libminhalib_la_LDFLAGS = -version-info $CURRENT:$REVISION:$AGE -no-undefined"
+
+if grep -q "^libminhalib_la_LDFLAGS" "$MAKEFILE_AM"; then
+    sed -i "s/^libminhalib_la_LDFLAGS.*/$LDFLAGS_LINE/" "$MAKEFILE_AM"
+else
+    echo "$LDFLAGS_LINE" >> "$MAKEFILE_AM"
+fi
+
+# Mostrar resultado
+echo
+echo "✅ Nova versão Libtool:"
+echo "  -version-info $CURRENT:$REVISION:$AGE"
+echo "📄 Makefile.am atualizado com:"
+echo "  $LDFLAGS_LINE"
+```
+
+---
+
+## 🧪 Exemplo de uso
+
+```bash
+./version.sh
+```
+
+Saída esperada:
+
+```
+Versão atual: CURRENT=1, REVISION=0, AGE=0
+
+Selecione a mudança:
+1) Mudança interna (não afeta API)
+2) Expansão compatível da API (ex: nova função pública)
+3) Quebra de compatibilidade (API incompatível)
+Sua escolha (1/2/3): 2
+
+✅ Nova versão Libtool:
+  -version-info 2:0:1
+📄 Makefile.am atualizado com:
+  libminhalib_la_LDFLAGS = -version-info 2:0:1 -no-undefined
+```
+
+---
+
+Quer que o script também rode `autogen.sh` e `make` automaticamente depois da atualização?
