@@ -10,10 +10,12 @@ AC_CONFIG_SRCDIR([src/minha_lib.c])
 AC_CANONICAL_HOST
 
 dnl ====== Compilador ========================================================
-LT_INIT([disable-static])        # Habilita Libtool e desativa estática
 AC_PROG_CC
+
+# para gerar: lib/.libs/libmyapp.so
 AM_PROG_AR
-dnl AC_PROG_RANLIB
+LT_INIT
+
 AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT
