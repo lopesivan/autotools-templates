@@ -1,4 +1,3 @@
 sh ./autogen.sh
-./configure
+CC=clang CXX=clang++ ./configure
 make
-
