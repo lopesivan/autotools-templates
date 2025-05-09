@@ -12,7 +12,7 @@ AC_CANONICAL_HOST
 dnl ====== Compilador ========================================================
 LT_INIT([disable-static])        # Habilita Libtool e desativa estática
 AC_PROG_CC
-dnl AM_PROG_AR
+AM_PROG_AR
 dnl AC_PROG_RANLIB
 AC_CONFIG_FILES([Makefile])
 
