@@ -1,9 +1,10 @@
 sh ./autogen.sh
 
+CC=clang CXX=clang++ ./configure
 ./configure
 make
 ./hello
 
-./configure --enable-debug
+CC=clang CXX=clang++ ./configure --enable-debug
 make
 ./hello
