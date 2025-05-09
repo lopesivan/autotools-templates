@@ -1,9 +1,15 @@
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 #include <stdio.h>
 
-#include "soma.h"
+int main(void) {
+  printf("Autor: %s\n", AUTHOR_NAME);
+  printf("Versão: %s\n", PACKAGE_VERSION);
+  printf("Porta: %d\n", DEFAULT_PORT);
 
-int main(int argc, char *argv[]) {
-  printf("soma= %d\n", soma(2, 4));
-
+#ifdef DEBUG
+  puts("Compilado com DEBUG!");
+#endif
   return 0;
 }
