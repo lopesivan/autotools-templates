@@ -2,15 +2,16 @@ dnl ====== Metadados do pacote ===============================================
 AC_PREREQ([2.69])
 AC_INIT([hello], [0.1.0], [you@example.com])
 
-AM_INIT_AUTOMAKE([1.10 -Wall no-define foreign])
+dnl ====== Configurando opções ===============================================
+AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
 
-dnl ====== Arquivo âncora (main.c) ===========================================
-AC_CONFIG_SRCDIR([src/main.c])
+dnl ====== Arquivo âncora (minha_lib.c) ======================================
+AC_CONFIG_SRCDIR([src/minha_lib.c])
 AC_CANONICAL_HOST
 
 dnl ====== Compilador ========================================================
 AC_PROG_CC
-AC_PROG_CC_C_O
+AC_PROG_RANLIB
 AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT
