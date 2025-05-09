@@ -6,11 +6,11 @@ dnl ====== Configurando opções ===============================================
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
 
 dnl ====== Arquivo âncora (minha_lib.c) ======================================
-AC_CONFIG_SRCDIR([src/minha_lib.c])
+AC_CONFIG_SRCDIR([src/minha_lib.cpp])
 AC_CANONICAL_HOST
 
 dnl ====== Compilador ========================================================
-AC_PROG_CC
+AC_PROG_CXX
 AM_PROG_AR
 AC_PROG_RANLIB
 AC_CONFIG_FILES([Makefile])
