@@ -1,7 +1,10 @@
 #!/bin/sh
 
+set -e
 aclocal
-automake --add-missing
+libtoolize --force
+autoheader
 autoconf
+automake --add-missing --foreign
 
 exit 0
