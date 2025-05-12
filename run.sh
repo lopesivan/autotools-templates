@@ -11,3 +11,7 @@ make
 ./configure --enable-abobrinha
 make
 ./hello
+
+./configure --disable-security
+make
+./hello

@@ -36,5 +36,6 @@ cat <<EOF
  *
  * Adicione o bloco acima ao seu código C para ativar o comportamento opcional.
  */
+
 EOF
 exit 0
