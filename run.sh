@@ -7,3 +7,7 @@ make
 ./configure --enable-debug
 make
 ./hello
+
+./configure --enable-abobrinha
+make
+./hello

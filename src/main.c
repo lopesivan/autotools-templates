@@ -11,5 +11,10 @@ int main(void) {
 #ifdef DEBUG
   puts("Compilado com DEBUG!");
 #endif
+
+#ifdef ABOBRINHA
+  puts("Compilado com ABOBRINHA!");
+#endif
+
   return 0;
 }
