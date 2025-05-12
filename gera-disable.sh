@@ -11,11 +11,12 @@ option="$1"
 description="$2"
 define_name=$(echo "$option" | tr '[:lower:]' '[:upper:]')
 
+DOLAR='$'
 cat <<EOF
 dnl --disable-${option} => adiciona #define ${define_name} 1
 AC_ARG_ENABLE([${option}],
   AS_HELP_STRING([--disable-${option}], [${description}]),
-  [test "x\\\$enable_${option}" = xno && AC_DEFINE([${define_name}], [1],
+  [test "x${DOLAR}enable_${option}" = xno && AC_DEFINE([${define_name}], [1],
                [Define para ${description}])])
 
 EOF
