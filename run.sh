@@ -15,3 +15,7 @@ make
 ./configure --disable-security
 make
 ./hello
+
+./configure --with-openssh=abobrinha/pretinha/flora/miguel
+make
+./hello

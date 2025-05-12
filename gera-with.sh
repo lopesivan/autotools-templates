@@ -24,6 +24,9 @@ AC_ARG_WITH([${option}],
     fi
   ])
 
+dnl \`WITH_${define_name}' do Makefile.am.
+AM_CONDITIONAL(WITH_${define_name}, [1])
+
 EOF
 
 echo "Adicione o bloco acima ao configure.ac!"
