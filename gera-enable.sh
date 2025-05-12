@@ -22,12 +22,13 @@ description="$2"
 # Converte o nome da opção para letras maiúsculas (ex: debug -> DEBUG)
 define_name=$(echo "$option" | tr '[:lower:]' '[:upper:]')
 
+DOLAR='$'
 # Gera o bloco M4 para o configure.ac com sintaxe correta usando if
 cat <<EOF
 dnl --enable-${option} => adiciona #define ${define_name} 1
 AC_ARG_ENABLE([${option}],
   AS_HELP_STRING([--enable-${option}], [${description}]),
-  [if test "x\\\$enable_${option}" = xyes; then
+  [if test \"x${DOLAR}enable_${option}\" = xyes; then
      AC_DEFINE([${define_name}], [1], [Define para ${description}])
    fi])
 EOF

@@ -14,18 +14,18 @@ dnl ====== Definições que irão para config.h ================================
 AC_DEFINE([AUTHOR_NAME], ["Ivan"], [Nome do autor])
 AC_DEFINE([DEFAULT_PORT], [8080], [Porta padrão])
 
-dnl --enable-debug => adiciona #define DEBUG 1
-AC_ARG_ENABLE([debug],
-  AS_HELP_STRING([--enable-debug], [Define para compilar código de depuração]),
-  [if test "x\$enable_debug" = xyes; then
-     AC_DEFINE([DEBUG], [1], [Define para Define para compilar código de depuração])
-   fi])
-
 dnl --enable-abobrinha => adiciona #define ABOBRINHA 1
 AC_ARG_ENABLE([abobrinha],
   AS_HELP_STRING([--enable-abobrinha], [O gato mais velho, o meu filho amado.]),
-  [if test "x\$enable_abobrinha" = xyes; then
+  [if test \"x$enable_abobrinha\" = xyes; then
      AC_DEFINE([ABOBRINHA], [1], [Define para O gato mais velho, o meu filho amado.])
+   fi])
+
+dnl --enable-debug => adiciona #define DEBUG 1
+AC_ARG_ENABLE([debug],
+  AS_HELP_STRING([--enable-debug], [Define para compilar código de depuração]),
+  [if test \"x$enable_debug\" = xyes; then
+     AC_DEFINE([DEBUG], [1], [Define para Define para compilar código de depuração])
    fi])
 
 dnl ====== Compilador ========================================================
