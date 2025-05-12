@@ -27,11 +27,6 @@ AC_ARG_ENABLE([debug],
      AC_DEFINE([DEBUG], [1], [Define para Define para compilar código de depuração])
    fi])
 
-dnl --disable-security => adiciona #define SECURITY 1
-AC_ARG_ENABLE([security],
-  AS_HELP_STRING([--disable-security], [desabilita verificações de segurança]),
-  [test "x$enable_security" = xno && AC_DEFINE([SECURITY], [1],
-               [Define para desabilita verificações de segurança])])
 
 dnl ====== Compilador ========================================================
 AC_PROG_CC

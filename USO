@@ -30,10 +30,4 @@ Adicione o bloco acima ao seu configure.ac!
  *
  * Adicione o bloco acima ao seu código C para ativar o comportamento opcional.
  */
-dnl --disable-security => adiciona #define SECURITY 1
-AC_ARG_ENABLE([security],
-  AS_HELP_STRING([--disable-security], [desabilita verificações de segurança]),
-  [test "x$enable_security" = xno && AC_DEFINE([SECURITY], [1],
-               [Define para desabilita verificações de segurança])])
 
-Adicione o bloco acima ao configure.ac!
