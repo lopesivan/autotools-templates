@@ -8,13 +8,6 @@ AC_PREREQ([2.68])
 
 AM_INIT_AUTOMAKE([1.10 -Wall no-define foreign])
 
-# Put autotools auxiliary files in a subdir, so they don't clutter top dir:
-AC_CONFIG_AUX_DIR([build-aux])
-
-# The modern autotools convention is that you should use an “m4” subdirectory
-# for internal “m4” files, instead of the default aclocal.m4.
-#AC_CONFIG_MACRO_DIR([m4])
-
 dnl ====== Arquivo âncora (main.c) ===========================================
 AC_CONFIG_SRCDIR([src/main.c])
 
