@@ -34,6 +34,19 @@ AC_ARG_ENABLE([security],
   [test "x$enable_security" = xno && AC_DEFINE([SECURITY], [0],
                [Define para desabilita verificações de segurança])])
 
+dnl --with-openssl => adiciona #define WITH_OPENSSL e define variável
+AC_ARG_WITH([openssl],
+  AS_HELP_STRING([--with-openssl=@<:@DIR@:>@], [usa biblioteca OpenSSL do diretório especificado]),
+  [
+    if test "x$with_openssl" != xno; then
+      AC_DEFINE([WITH_OPENSSL], [1], [Define se openssl está habilitado])
+      OPENSSL_PATH="$with_openssl"
+      AC_SUBST([OPENSSL_PATH])
+    fi
+  ])
+
+dnl `WITH_OPENSSL' do Makefile.am.
+AM_CONDITIONAL(WITH_OPENSSL, [1])
 
 dnl ====== Compilador ========================================================
 AC_PROG_CC
