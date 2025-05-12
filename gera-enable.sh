@@ -28,7 +28,7 @@ cat <<EOF
 dnl --enable-${option} => adiciona #define ${define_name} 1
 AC_ARG_ENABLE([${option}],
   AS_HELP_STRING([--enable-${option}], [${description}]),
-  [if test \"x${DOLAR}enable_${option}\" = xyes; then
+  [if test "x${DOLAR}enable_${option}" = xyes; then
      AC_DEFINE([${define_name}], [1], [Define para ${description}])
    fi])
 EOF
