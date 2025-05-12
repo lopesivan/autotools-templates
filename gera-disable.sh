@@ -28,13 +28,10 @@ echo "Adicione o bloco acima ao configure.ac!"
 cat <<EOF
 
 /*
- * #ifdef ${define_name}
+ * if (${define_name})
  *   puts("${define_name} LIGADO");
- * #else
+ * else
  *   puts("${define_name} DESLIGADO");
- * #endif
- *
- * Adicione o bloco acima ao seu código C para ativar o comportamento opcional.
  */
 
 EOF

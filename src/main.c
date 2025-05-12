@@ -16,11 +16,10 @@ int main(void) {
   puts("Compilado com ABOBRINHA!");
 #endif
 
-#ifdef SECURITY
-  puts("SECURITY LIGADO");
-#else
-  puts("SECURITY DESLIGADO");
-#endif
+  if (SECURITY)
+    puts("SECURITY LIGADO");
+  else
+    puts("SECURITY DESLIGADO");
 
   return 0;
 }
