@@ -1,9 +1,20 @@
-ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
+# We don't want to follow GNU file setup (no README, no AUTHORS, etc)
+AUTOMAKE_OPTIONS = foreign
 
-lib_LTLIBRARIES = libminhalib.la
+ACLOCAL_AMFLAGS  = -I m4 --install
+EXTRA_DIST       = autogen.sh
 
-libminhalib_la_SOURCES = src/minha_lib.c include/minha_lib.h
-libminhalib_la_LDFLAGS = -version-info 0:0:0 -no-undefined
-libminhalib_la_CPPFLAGS = -I$(srcdir)/include
+SUBDIRS = \
+	source            \
+	examples/list     \
+	examples/tree     \
+	examples/dynarrays\
+	examples/gdb/01   \
+	examples/models/pythagoras \
+	examples/models/eq2        \
+	examples/models/eq3        \
+	examples/models/eq4        \
+	examples/models/tree       \
+	examples/models/Sturm
 
-include_HEADERS = include/minha_lib.h
+include about.am
