@@ -1,6 +1,5 @@
-AUTOMAKE_OPTIONS = subdir-objects
-ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
+SUBDIRS = src data
 
-bin_PROGRAMS = hello
-hello_CFLAGS = -I$(top_srcdir)/src
-hello_SOURCES = src/hello.cpp  src/main.cpp
+# Documentação adicional
+EXTRA_DIST = README.md CHANGELOG.md
+
