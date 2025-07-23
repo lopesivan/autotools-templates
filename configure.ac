@@ -20,6 +20,10 @@ PKG_CHECK_MODULES(FFMPEG, [libavutil libavformat libswscale libavcodec])
 AC_SUBST(FFMPEG_CFLAGS)
 AC_SUBST(FFMPEG_LIBS)
 
+# Configurações adicionais para wxWidgets
+CFLAGS="$CFLAGS ${FFMPEG_CFLAGS}"
+LIBS="$LIBS ${FFMPEG_LIBS}"
+
 dnl ====== Opções de debug ===================================================
 AC_ARG_ENABLE([debug],
     AS_HELP_STRING([--enable-debug], [Habilitar modo debug]),
@@ -48,7 +52,7 @@ $PACKAGE_NAME $PACKAGE_VERSION
     Debug:              $debug
 
     Compilador:         $CC
-    CXXFLAGS:           $CFLAGS
+    CFLAGS:             $CFLAGS
     LIBS:               $LIBS
 
     Agora execute 'make' para compilar.
