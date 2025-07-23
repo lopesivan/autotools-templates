@@ -20,6 +20,18 @@ PKG_CHECK_MODULES(FFMPEG, [libavutil libavformat libswscale libavcodec])
 AC_SUBST(FFMPEG_CFLAGS)
 AC_SUBST(FFMPEG_LIBS)
 
+dnl ====== Opções de debug ===================================================
+AC_ARG_ENABLE([debug],
+    AS_HELP_STRING([--enable-debug], [Habilitar modo debug]),
+    [debug=$enableval],
+    [debug=no])
+
+if test "x$debug" = "xyes"; then
+    CFLAGS="$CFLAGS -g -O0 -DDEBUG"
+else
+    CFLAGS="$CFLAGS -O2 -DNDEBUG"
+fi
+
 dnl ====== Compilador ========================================================
 AC_PROG_CC
 AC_PROG_CC_C_O
@@ -28,3 +40,16 @@ AC_CANONICAL_HOST
 AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT          dnl fecha o script
+
+echo "
+$PACKAGE_NAME $PACKAGE_VERSION
+
+    Configuração:
+    Debug:              $debug
+
+    Compilador:         $CC
+    CXXFLAGS:           $CFLAGS
+    LIBS:               $LIBS
+
+    Agora execute 'make' para compilar.
+"
