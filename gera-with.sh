@@ -29,4 +29,4 @@ AM_CONDITIONAL(WITH_${define_name}, [1])
 
 EOF
 
-echo "Adicione o bloco acima ao configure.ac!"
+echo "Adicione o bloco acima ao configure.ac!" >&2

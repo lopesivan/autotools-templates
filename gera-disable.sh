@@ -22,7 +22,7 @@ AC_ARG_ENABLE([${option}],
 
 EOF
 
-echo "Adicione o bloco acima ao configure.ac!"
+echo "Adicione o bloco acima ao configure.ac!" >&2
 
 # Gera o bloco C para usar o #define no código-fonte
 cat <<EOF
@@ -35,4 +35,7 @@ cat <<EOF
  */
 
 EOF
+
+echo "Adicione o bloco C para usar no código-fonte!" >&2
+
 exit 0
