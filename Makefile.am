@@ -1,9 +1,6 @@
-ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
+# We don't want to follow GNU file setup (no README, no AUTHORS, etc)
+#AUTOMAKE_OPTIONS = foreign
 
-lib_LTLIBRARIES = libminhalib.la
+#ACLOCAL_AMFLAGS  = -I m4 --install
 
-libminhalib_la_SOURCES = src/minha_lib.c include/minha_lib.h
-libminhalib_la_LDFLAGS = -version-info 0:0:0 -no-undefined
-libminhalib_la_CPPFLAGS = -I$(srcdir)/include
-
-include_HEADERS = include/minha_lib.h
+SUBDIRS = src
