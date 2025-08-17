@@ -1,19 +1,52 @@
-dnl ====== Metadados do pacote ===============================================
-AC_PREREQ([2.69])
-AC_INIT([hello], [0.1.0], [you@example.com])
+# configure.ac
 
-dnl ====== Configurando opções ===============================================
-AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
+dnl === Projeto / metadata ===
+AC_INIT([libsum], [0.02], [ivan@ivanlopes.eng.br], [libsum], [http://ivanlopes.eng.br/])
 
-dnl ====== Arquivo âncora (minha_lib.c) ======================================
-AC_CONFIG_SRCDIR([src/minha_lib.c])
-AC_CANONICAL_HOST
+dnl Requisito mínimo do Autoconf (ajuste se precisar)
+AC_PREREQ([2.68])
 
-dnl ====== Compilador ========================================================
+dnl Coloca arquivos auxiliares do autotools em build-aux/
+AC_CONFIG_AUX_DIR([build-aux])
+
+dnl Diretório de macros locais (.m4)
+AC_CONFIG_MACRO_DIRS([m4])
+
+dnl === Automake ===
+dnl Opções comuns: 'foreign' evita exigir arquivos GNU extras;
+dnl -Wall pra avisos. Evitei -Werror para não travar builds por warnings.
+AM_INIT_AUTOMAKE([foreign -Wall])
+
+dnl === Ferramentas de compilação ===
 AC_PROG_CC
-LT_INIT  # <- importante para suporte a bibliotecas compartilhadas
-AM_PROG_AR  dnl <- ESSENCIAL para evitar o erro
+AC_PROG_CC_C_O
 
-AC_CONFIG_FILES([Makefile])
+dnl Para criação de libs estáticas com Automake moderno
+AM_PROG_AR
+
+dnl Libtool (substitui AC_PROG_LIBTOOL/AC_PROG_RANLIB)
+LT_INIT([dlopen])
+
+dnl === Descoberta de programas ===
+dnl Se existirem no PATH, definem MCS e MONO
+AC_PATH_PROG([MCS],  [mcs],  [])
+AC_PATH_PROG([MONO], [mono], [])
+
+dnl Se ambas as variáveis não forem vazias, ativa CONFIG_MONO no Makefile.am
+AM_CONDITIONAL([CONFIG_MONO], [test -n "$MCS" -a -n "$MONO"])
+
+dnl === Comandos extras na configuração (opcional) ===
+AC_CONFIG_COMMANDS([Test],
+[
+  echo "========= $mypkgname ========="
+  echo "make -C src run"
+],
+[mypkgname=$PACKAGE_NAME])
+
+dnl === Arquivos gerados ===
+AC_CONFIG_FILES([
+  Makefile
+  src/Makefile
+])
 
 AC_OUTPUT
