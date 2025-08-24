@@ -43,9 +43,11 @@ wxBEGIN_EVENT_TABLE(SpinFrame, wxFrame)
     EVT_MENU(wxID_EXIT, SpinFrame::OnExit)
     EVT_MENU(wxID_ABOUT, SpinFrame::OnAbout)
 wxEND_EVENT_TABLE()
-    // clang-format on
 
-    bool SpinApp::OnInit()
+wxIMPLEMENT_APP(SpinApp);
+// clang-format on
+
+bool SpinApp::OnInit()
 {
     SpinFrame* frame = new SpinFrame();
     frame->Show(true);
