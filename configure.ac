@@ -34,6 +34,24 @@ AC_ARG_ENABLE([security],
   [test "x$enable_security" = xno && AC_DEFINE([SECURITY], [0],
                [Define para desabilita verificações de segurança])])
 
+dnl --with-openssl => adiciona #define WITH_OPENSSL e define variável
+AC_ARG_WITH([openssl],
+  AS_HELP_STRING([--with-openssl=@<:@DIR@:>@], [usa biblioteca OpenSSL do diretório especificado]),
+  [
+    if test "x$with_openssl" != "xno" && test -n "$with_openssl"; then
+      AC_DEFINE([WITH_OPENSSL], [1], [Define se OPENSSL está habilitado])
+      OPENSSL_PATH="$with_openssl"
+      USE_OPENSSL=true
+    else
+      USE_OPENSSL=false
+    fi
+  ],
+  [USE_OPENSSL=false]
+)
+
+AM_CONDITIONAL([WITH_OPENSSL], [test "x$USE_OPENSSL" = "xtrue"])
+AC_SUBST([OPENSSL_PATH])
+
 dnl ====== Compilador ========================================================
 AC_PROG_CC
 AC_PROG_CC_C_O
