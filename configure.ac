@@ -1,38 +1,39 @@
 AC_INIT([spinapp], [1.0], [seu-email@exemplo.com])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
-
-# Verificar compilador C++
-AC_PROG_CXX
+AC_CONFIG_SRCDIR([src/main.cpp])
+AC_CONFIG_HEADERS([config.h])
 AC_LANG([C++])
+AC_PROG_CXX
 
-# Verificar wxWidgets
+# wxWidgets usando wxwin.m4
 AM_OPTIONS_WXCONFIG
 reqwx=3.0.0
-AM_PATH_WXCONFIG($reqwx, wxWin=1)
-if test "$wxWin" != 1; then
-    AC_MSG_ERROR([
-        wxWidgets deve estar instalado em seu sistema.
+AM_PATH_WXCONFIG([$reqwx], [wxWin=yes], [wxWin=no])
 
-        Por favor, verifique se wx-config está no caminho,
-        as bibliotecas wxWidgets estão instaladas corretamente,
-        e que a versão seja $reqwx ou superior.
-    ])
+if test "x$wxWin" != "xyes"; then
+    AC_MSG_ERROR([
+wxWidgets não encontrado ou versão insuficiente (>= $reqwx).
+
+Certifique-se de que:
+  - O pacote de desenvolvimento do wxWidgets está instalado.
+  - O utilitário 'wx-config' está no PATH.
+  - A versão instalada é >= $reqwx.
+])
 fi
 
-# Configurações adicionais para wxWidgets
+# Adiciona os flags do wxWidgets ao ambiente
 CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
 CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS_ONLY"
 CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
 LIBS="$LIBS $WX_LIBS"
 
-# Verificar se XRC está disponível (opcional)
+# Suporte opcional a XRC
 AC_ARG_ENABLE([xrc],
-    AS_HELP_STRING([--enable-xrc], [Habilitar suporte XRC]),
+    AS_HELP_STRING([--enable-xrc], [Habilitar suporte a XRC (default: sim)]),
     [use_xrc=$enableval],
     [use_xrc=yes])
 
 if test "x$use_xrc" = "xyes"; then
-    # Verificar se wxWidgets foi compilado com suporte XRC
     AC_MSG_CHECKING([se wxWidgets suporta XRC])
     wx_config_libs=`$WX_CONFIG_WITH_ARGS --libs`
     if echo "$wx_config_libs" | grep -q "xrc"; then
@@ -48,12 +49,12 @@ fi
 
 AM_CONDITIONAL([USE_XRC], [test "x$use_xrc" = "xyes"])
 
-# Verificar bibliotecas adicionais
+# Verifica pthread (usado por wx geralmente)
 AC_CHECK_LIB([pthread], [pthread_create])
 
-# Opções de debug
+# Suporte a debug
 AC_ARG_ENABLE([debug],
-    AS_HELP_STRING([--enable-debug], [Habilitar modo debug]),
+    AS_HELP_STRING([--enable-debug], [Habilitar modo de depuração]),
     [debug=$enableval],
     [debug=no])
 
@@ -67,21 +68,18 @@ fi
 AC_CONFIG_FILES([
     Makefile
     src/Makefile
-    data/Makefile
 ])
 
 AC_OUTPUT
 
 echo "
-$PACKAGE_NAME $PACKAGE_VERSION
+$PACKAGE_NAME $PACKAGE_VERSION configurado com sucesso!
 
-    Configuração:
     Debug:              $debug
     Suporte XRC:        $use_xrc
-
     Compilador:         $CXX
     CXXFLAGS:           $CXXFLAGS
     LIBS:               $LIBS
 
-    Agora execute 'make' para compilar.
+Execute 'make' para compilar.
 "
