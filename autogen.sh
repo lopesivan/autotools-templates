@@ -1,13 +1,9 @@
 #!/bin/bash
 
-# Script para gerar os arquivos de configuração
-echo "Gerando arquivos de configuração..."
-
-# Criar diretório m4 se não existir
-mkdir -p m4
-
-# Executar autoreconf
-autoreconf --install --verbose --force
+aclocal
+autoheader
+automake --add-missing
+autoconf
 
 # Verificar se foi bem-sucedido
 if [ $? -eq 0 ]; then
