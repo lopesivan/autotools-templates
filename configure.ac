@@ -27,27 +27,27 @@ CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS_ONLY"
 CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
 LIBS="$LIBS $WX_LIBS"
 
-# Suporte opcional a XRC
-AC_ARG_ENABLE([xrc],
-    AS_HELP_STRING([--enable-xrc], [Habilitar suporte a XRC (default: sim)]),
-    [use_xrc=$enableval],
-    [use_xrc=yes])
-
-if test "x$use_xrc" = "xyes"; then
-    AC_MSG_CHECKING([se wxWidgets suporta XRC])
-    wx_config_libs=`$WX_CONFIG_WITH_ARGS --libs`
-    if echo "$wx_config_libs" | grep -q "xrc"; then
-        AC_MSG_RESULT([sim])
-        AC_DEFINE([HAVE_XRC], [1], [Define se XRC está disponível])
-        XRC_LIBS=`$WX_CONFIG_WITH_ARGS --libs xrc`
-        LIBS="$LIBS $XRC_LIBS"
-    else
-        AC_MSG_RESULT([não])
-        use_xrc=no
-    fi
-fi
-
-AM_CONDITIONAL([USE_XRC], [test "x$use_xrc" = "xyes"])
+#=# Suporte opcional a XRC
+#=AC_ARG_ENABLE([xrc],
+#=    AS_HELP_STRING([--enable-xrc], [Habilitar suporte a XRC (default: sim)]),
+#=    [use_xrc=$enableval],
+#=    [use_xrc=yes])
+#=
+#=if test "x$use_xrc" = "xyes"; then
+#=    AC_MSG_CHECKING([se wxWidgets suporta XRC])
+#=    wx_config_libs=`$WX_CONFIG_WITH_ARGS --libs`
+#=    if echo "$wx_config_libs" | grep -q "xrc"; then
+#=        AC_MSG_RESULT([sim])
+#=        AC_DEFINE([HAVE_XRC], [1], [Define se XRC está disponível])
+#=        XRC_LIBS=`$WX_CONFIG_WITH_ARGS --libs xrc`
+#=        LIBS="$LIBS $XRC_LIBS"
+#=    else
+#=        AC_MSG_RESULT([não])
+#=        use_xrc=no
+#=    fi
+#=fi
+#=
+#=AM_CONDITIONAL([USE_XRC], [test "x$use_xrc" = "xyes"])
 
 # Verifica pthread (usado por wx geralmente)
 AC_CHECK_LIB([pthread], [pthread_create])
