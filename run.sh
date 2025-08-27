@@ -1,15 +1,30 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-BAKEFILE_HOME=$HOME/wx/linux-wx-3.2.4
-ACLOCAL_HOME=$HOME/wx/wxWidgets-3.2.4-linux/build/aclocal
+# Caminho base onde ficam as dependências e fontes do wxWidgets
+WX_BASE_DIR="$HOME/wx"
 
-PYENV_VERSION=2.7.18 \
-    $BAKEFILE_HOME/bin/bakefile -f autoconf hello.bkl
+# Prefixo de instalação do wxWidgets (binários e ferramentas)
+WX_INSTALL_DIR="$WX_BASE_DIR/linux-wx-3.2.4"
 
-#mkdir -p m4 && mv autoconf_inc.m4 m4/
-PYENV_VERSION=2.7.18 \
-    $BAKEFILE_HOME/bin/bakefilize --copy &&
-    aclocal -I $ACLOCAL_HOME &&
-    autoconf
+# Diretório do código-fonte do wxWidgets
+WX_SOURCE_DIR="$WX_BASE_DIR/wxWidgets-3.2.4-linux"
+
+# Diretório de macros aclocal
+WX_ACLOCAL_DIR="$WX_SOURCE_DIR/build/aclocal"
+
+# Versão do Python usada para executar bakefile
+PYTHON_VERSION="2.7.18"
+
+# === Gerar arquivos de build ===
+PYENV_VERSION="$PYTHON_VERSION" \
+    "$WX_INSTALL_DIR/bin/bakefile" -f autoconf hello.bkl
+
+# === Inicializar sistema autoconf ===
+PYENV_VERSION="$PYTHON_VERSION" \
+    "$WX_INSTALL_DIR/bin/bakefilize" --copy
+
+aclocal -I "$WX_ACLOCAL_DIR"
+autoconf
 
 exit 0
