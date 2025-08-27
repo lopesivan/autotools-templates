@@ -14,4 +14,8 @@ PYTHON_VERSION="2.7.18"
 PYENV_VERSION="$PYTHON_VERSION" \
     "$WX_INSTALL_DIR/bin/bakefile" -f gnu hello.bkl -o Makefile
 
+if test -e Makefile; then
+    WX_CONFIG=$WX_INSTALL_DIR/bin/wx-config make
+fi
+
 exit 0
