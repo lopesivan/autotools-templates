@@ -7,24 +7,11 @@ WX_BASE_DIR="$HOME/wx"
 # Prefixo de instalação do wxWidgets (binários e ferramentas)
 WX_INSTALL_DIR="$WX_BASE_DIR/linux-wx-3.2.4"
 
-# Diretório do código-fonte do wxWidgets
-WX_SOURCE_DIR="$WX_BASE_DIR/wxWidgets-3.2.4-linux"
-
-# Diretório de macros aclocal
-WX_ACLOCAL_DIR="$WX_SOURCE_DIR/build/aclocal"
-
 # Versão do Python usada para executar bakefile
 PYTHON_VERSION="2.7.18"
 
 # === Gerar arquivos de build ===
 PYENV_VERSION="$PYTHON_VERSION" \
-    "$WX_INSTALL_DIR/bin/bakefile" -f autoconf hello.bkl
-
-# === Inicializar sistema autoconf ===
-PYENV_VERSION="$PYTHON_VERSION" \
-    "$WX_INSTALL_DIR/bin/bakefilize" --copy
-
-aclocal -I "$WX_ACLOCAL_DIR"
-autoconf
+    "$WX_INSTALL_DIR/bin/bakefile" -f gnu hello.bkl -o Makefile
 
 exit 0
