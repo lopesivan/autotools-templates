@@ -1,31 +1,8 @@
-dnl ===========================================================
-dnl    Metadados do pacote
-dnl ===========================================================
-AC_PREREQ([2.69])
-AC_INIT([hello], [0.1.0], [you@example.com])
-AM_INIT_AUTOMAKE([1.10 -Wall no-define foreign])
-AC_CONFIG_SRCDIR([src/main.cpp])
-AC_CONFIG_HEADERS([config.h])
-
-dnl ===========================================================
-dnl    Definições customizadas para config.h
-dnl ===========================================================
-AC_DEFINE([AUTHOR_NAME], ["Ivan"], [Nome do autor])
-AC_DEFINE([DEFAULT_PORT], [8080], [Porta padrão])
-
-dnl --enable-debug ⇒ define DEBUG em config.h
-AC_ARG_ENABLE([debug],
-    [AS_HELP_STRING([--enable-debug], [Compilar com código de depuração])],
-    [test "x$enable_debug" = "xyes" && AC_DEFINE([DEBUG], [1],
-        [Define para compilar código de depuração])]
-)
-
-dnl ===========================================================
-dnl    Compilador
-dnl ===========================================================
-AC_PROG_CC
-AC_PROG_CXX
-AC_LANG([C++])
+AC_PREREQ(2.53)
+AC_INIT([hello], [1.0], [author@example.com])
+dnl pass some unique file file to AC_CONFIG_SRCDIR
+AC_CONFIG_SRCDIR([autoconf_inc.m4])
+AC_CANONICAL_HOST
 
 dnl ===========================================================
 dnl    wxWidgets
@@ -43,10 +20,6 @@ WX_LIBS="`$WX_CONFIG --libs`"
 AC_SUBST([WX_CXXFLAGS])
 AC_SUBST([WX_LIBS])
 
-dnl ===========================================================
-dnl    Arquivos de saída
-dnl ===========================================================
-AC_CONFIG_FILES([
-    Makefile
-])
+AC_BAKEFILE([m4_include(autoconf_inc.m4)])
+AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
