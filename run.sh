@@ -12,10 +12,10 @@ PYTHON_VERSION="2.7.18"
 
 # === Gerar arquivos de build ===
 PYENV_VERSION="$PYTHON_VERSION" \
-    "$WX_INSTALL_DIR/bin/bakefile" -f gnu hello.bkl -o Makefile
+    "$WX_INSTALL_DIR/bin/bakefile" -f mingw hello.bkl
 
-if test -e Makefile; then
-    WX_CONFIG=$WX_INSTALL_DIR/bin/wx-config make
-fi
+# if test -e Makefile; then
+#     WX_CONFIG=$WX_INSTALL_DIR/bin/wx-config make
+# fi
 
 exit 0
