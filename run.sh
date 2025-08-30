@@ -27,13 +27,13 @@ PYENV_VERSION="$PYTHON_VERSION" \
 aclocal -I "$WX_ACLOCAL_DIR"
 autoconf
 
-./configure \
-    --host=x86_64-w64-mingw32 \
-    --build=x86_64-linux \
-    --disable-unicode \
-    --enable-monolithic \
-    --disable-shared \
-    CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS=-m64 &&
-    make
+cp /usr/lib/gcc/x86_64-w64-mingw32/13-win32/libgcc_s_seh-1.dll .
+cp /usr/lib/gcc/x86_64-w64-mingw32/13-win32/libstdc++-6.dll .
 
+WX_CONFIG=/home/ivan/wx/windows-wx-3.2.4/bin/wx-config \
+    ./configure \
+    --host=x86_64-w64-mingw32 \
+    CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS=-m64 && make
+
+# or in CMake: -DwxBUILD_SHARED=OFF
 exit 0
