@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <makefile>
   <include file="/home/ivan/wx/windows-wx-3.2.4/share/bakefile/presets/wx.bkl"/>
-  <exe id="MyProject" template="wx">
+  <exe id="hello" template="wx">
     <app-type>gui</app-type>
     <sources>hello.cpp</sources>
     <wx-lib>core</wx-lib>
