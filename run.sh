@@ -18,4 +18,10 @@ PYENV_VERSION="$PYTHON_VERSION" \
 #     WX_CONFIG=$WX_INSTALL_DIR/bin/wx-config make
 # fi
 
+cp /usr/lib/gcc/x86_64-w64-mingw32/13-win32/libgcc_s_seh-1.dll .
+cp /usr/lib/gcc/x86_64-w64-mingw32/13-win32/libstdc++-6.dll .
+
+WX_CONFIG=/home/ivan/wx/windows-wx-3.2.4/bin/wx-config \
+    make
+
 exit 0
