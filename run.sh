@@ -27,4 +27,13 @@ PYENV_VERSION="$PYTHON_VERSION" \
 aclocal -I "$WX_ACLOCAL_DIR"
 autoconf
 
+./configure \
+    --host=x86_64-w64-mingw32 \
+    --build=x86_64-linux \
+    --disable-unicode \
+    --enable-monolithic \
+    --disable-shared \
+    CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS=-m64 &&
+    make
+
 exit 0
