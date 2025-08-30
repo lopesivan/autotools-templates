@@ -2,13 +2,12 @@ sources     = $(wildcard *.cpp)
 program     = $(sources:.cpp=)
 objects     = $(sources:.cpp=.o)
 
-WX_CONFIG   = /home/ivan/wx/windows-wx-3.2.4/bin/wx-config
-CXX         = `$(WX_CONFIG) --cxx`
+CXX         = `wx-config --cxx`
 WARNINGS    = -Wall
 GDBFLAGS    = -g
-LDLIBS      = `$(WX_CONFIG) --libs`
+LDLIBS      = `wx-config --libs`
 
-CPPFLAGS    = `$(WX_CONFIG) --cppflags` $(WARNINGS) $(GDBFLAGS)
+CPPFLAGS    = `wx-config --cppflags` $(WARNINGS) $(GDBFLAGS)
 #$(INCLUDE) $(DEFINEFLAGS)
 
 all:          $(program)
@@ -16,5 +15,5 @@ all:          $(program)
 $(program):
 
 clean:
-	/bin/rm -rf $(program).exe $(objects)
+	/bin/rm -rf $(program) $(objects)
 
